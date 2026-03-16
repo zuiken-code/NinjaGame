@@ -17,6 +17,7 @@ export const createGame = (parent: string) => {
       width: "100%",
       height: "100%",
     },
+    backgroundColor: "#3498db",
     physics: {
       default: "arcade",
       arcade: {
