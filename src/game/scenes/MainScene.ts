@@ -28,10 +28,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   jumpLeft() {
-    this.player.setVelocity(-200, -500);
+    this.player.setVelocity(-150, -500);
   }
 
   jumpRight() {
-    this.player.setVelocity(200, -500);
+    this.player.setVelocity(150, -500);
   }
 }
