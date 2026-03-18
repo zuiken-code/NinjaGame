@@ -4,7 +4,7 @@ const GAME_WIDTH = 400;
 const GAME_HEIGHT = 700;
 
 // ゲーム設定
-const SHURIKEN_INTERVAL_Y = 400;    // 手裏剣の間隔(px)
+const SHURIKEN_INTERVAL_Y = 64*2;    // 手裏剣の間隔(px)
 const JUMP_VELOCITY_X = 180;        // 横方向ジャンプ速度
 const JUMP_VELOCITY_Y = -500;       // 縦方向ジャンプ速度
 const PIXELS_PER_METER = 50;        // 1メートルあたりのpx
@@ -79,39 +79,37 @@ export default class MainScene extends Phaser.Scene {
   }
 
   createShurikenTexture() {
-    const size = 32;
+    const size = 64; // ここを32から64に変更
     const cx = size / 2;
     const cy = size / 2;
+    // 比率（スケール）を計算
+    const s = size / 32; 
+
     const gfx = this.add.graphics();
 
-    // 手裏剣の4つの刃
     gfx.fillStyle(0xc0c0c0, 1);
-    const points = [
-      // 上の刃
-      { x: cx, y: cy - 14 }, { x: cx + 4, y: cy - 3 }, { x: cx - 4, y: cy - 3 },
-    ];
-    gfx.fillTriangle(points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y);
+    
+    // 各座標に「s」を掛けることで比率を維持します
+    // 上
+    gfx.fillTriangle(cx, cy - 14 * s, cx + 4 * s, cy - 3 * s, cx - 4 * s, cy - 3 * s);
+    // 右
+    gfx.fillTriangle(cx + 14 * s, cy, cx + 3 * s, cy + 4 * s, cx + 3 * s, cy - 4 * s);
+    // 下
+    gfx.fillTriangle(cx, cy + 14 * s, cx - 4 * s, cy + 3 * s, cx + 4 * s, cy + 3 * s);
+    // 左
+    gfx.fillTriangle(cx - 14 * s, cy, cx - 3 * s, cy - 4 * s, cx - 3 * s, cy + 4 * s);
 
-    // 右の刃
-    gfx.fillTriangle(cx + 14, cy, cx + 3, cy + 4, cx + 3, cy - 4);
-
-    // 下の刃
-    gfx.fillTriangle(cx, cy + 14, cx - 4, cy + 3, cx + 4, cy + 3);
-
-    // 左の刃
-    gfx.fillTriangle(cx - 14, cy, cx - 3, cy - 4, cx - 3, cy + 4);
-
-    // 中心の円
+    // 中心
     gfx.fillStyle(0x808080, 1);
-    gfx.fillCircle(cx, cy, 4);
+    gfx.fillCircle(cx, cy, 4 * s);
 
-    // 中心のハイライト
+    // ハイライト
     gfx.fillStyle(0xe0e0e0, 1);
-    gfx.fillCircle(cx - 1, cy - 1, 2);
+    gfx.fillCircle(cx - 1 * s, cy - 1 * s, 2 * s);
 
     gfx.generateTexture("shuriken", size, size);
     gfx.destroy();
-  }
+}
 
   create() {
     this.isGameOver = false;
@@ -279,7 +277,7 @@ export default class MainScene extends Phaser.Scene {
     shuriken.setScale(1.2);
     shuriken.refreshBody();
     // 当たり判定を小さめに
-    (shuriken.body as Phaser.Physics.Arcade.StaticBody).setSize(20, 20);
+    (shuriken.body as Phaser.Physics.Arcade.StaticBody).setSize(60, 60);
     (shuriken.body as Phaser.Physics.Arcade.StaticBody).setOffset(6, 6);
 
     // 回転アニメーション
