@@ -103,6 +103,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         this.scene.start("main");
+        window.gtag("event", "retry_game");
       });
 
     // トップへ戻るボタン
@@ -120,6 +121,7 @@ export default class GameOverScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         window.location.hash = "#/";
+        window.gtag("event", "return_top");
       });
 
     // アニメーション (ボタンを少しだけ上下に動かす)
