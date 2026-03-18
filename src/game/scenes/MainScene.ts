@@ -5,7 +5,7 @@ const GAME_HEIGHT = 700;
 
 // ゲーム設定
 const SHURIKEN_INTERVAL_Y = 64 * 3;    // 手裏剣の間隔(px)
-const JUMP_VELOCITY_X = 180;        // 横方向ジャンプ速度
+const JUMP_VELOCITY_X = 100;        // 横方向ジャンプ速度
 const JUMP_VELOCITY_Y = -500;       // 縦方向ジャンプ速度
 const PIXELS_PER_METER = 50;        // 1メートルあたりのpx
 const GENERATE_AHEAD = 2000;        // カメラの上方向にこの分だけ先に生成(px)
