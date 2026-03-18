@@ -9,7 +9,7 @@ function Top() {
         
         <div className="game-info">
           <p className="description">
-            天空を目指し、ひたすら壁を蹴り上がれ！<br />
+            天空を目指し、ひたすら蹴り上がれ！<br />
             迫りくる手裏剣を避け、どこまで高く登れるか挑戦しよう。
           </p>
 
