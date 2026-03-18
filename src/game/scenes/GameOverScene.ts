@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { ScoreManager } from "../../util/ScoreManager";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -53,18 +54,43 @@ export default class GameOverScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
+    // スコア保存
+    ScoreManager.addScore(score);
+
     // 高さラベル
     this.add
       .text(centerX, centerY + 40, "到達した高さ", {
         fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
         fontSize: "18px",
-        color: "#aaaaaa",
+        color: "#ffffffff",
       })
       .setOrigin(0.5);
 
+    // Bestスコア表示
+    this.add
+      .text(centerX, centerY + 80, "BEST", {
+        fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
+        fontSize: "25px",
+        color: "#1eff00ff",
+      })
+      .setOrigin(0.5);
+
+      const bestScore = ScoreManager.getBestScores(3);
+      
+      bestScore.forEach((score, index) => {
+        this.add
+        .text(centerX, centerY + 120 + (index * 40), `${score} m`, {
+          fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
+          fontSize: "30px",
+          fontStyle: "bold",
+          color: "#ffffffff",
+        })
+        .setOrigin(0.5);
+      });
+
     // リトライ案内
     const retryText = this.add
-      .text(centerX, centerY + 120, "タップしてリトライ", {
+      .text(centerX, centerY + 300, "タップしてリトライ", {
         fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
         fontSize: "22px",
         color: "#ffffff",
