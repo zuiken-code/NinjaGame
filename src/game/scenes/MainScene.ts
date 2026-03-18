@@ -4,7 +4,7 @@ const GAME_WIDTH = 400;
 const GAME_HEIGHT = 700;
 
 // ゲーム設定
-const SHURIKEN_INTERVAL_Y = 64*2;    // 手裏剣の間隔(px)
+const SHURIKEN_INTERVAL_Y = 64*3;    // 手裏剣の間隔(px)
 const JUMP_VELOCITY_X = 180;        // 横方向ジャンプ速度
 const JUMP_VELOCITY_Y = -500;       // 縦方向ジャンプ速度
 const PIXELS_PER_METER = 50;        // 1メートルあたりのpx
