@@ -4,7 +4,6 @@ const GAME_WIDTH = 400;
 const GAME_HEIGHT = 700;
 
 // ゲーム設定
-const PLATFORM_INTERVAL_Y = 130;    // 足場の間隔(px)
 const SHURIKEN_INTERVAL_Y = 400;    // 手裏剣の間隔(px)
 const JUMP_VELOCITY_X = 180;        // 横方向ジャンプ速度
 const JUMP_VELOCITY_Y = -500;       // 縦方向ジャンプ速度
@@ -217,8 +216,8 @@ export default class MainScene extends Phaser.Scene {
       }
     });
 
-    // 初期の足場・障害物を生成
-    this.generateContentUpTo(this.startY - GENERATE_AHEAD);
+    // 手裏剣障害物のみ生成（足場はスタート地点のみ）
+    this.generateShurikens();
   }
 
   update() {
@@ -234,10 +233,10 @@ export default class MainScene extends Phaser.Scene {
       this.scoreText.setText(`${this.score} m`);
     }
 
-    // コンテンツの動的生成
+    // 手裏剣の動的生成
     const cameraTop = this.cameras.main.scrollY;
     if (cameraTop - GENERATE_AHEAD < this.generatedUpTo) {
-      this.generateContentUpTo(this.generatedUpTo - GENERATE_AHEAD);
+      this.spawnShurikensUpTo(this.generatedUpTo - GENERATE_AHEAD);
     }
 
     // カメラ下部よりも落下したらゲームオーバー
@@ -262,9 +261,9 @@ export default class MainScene extends Phaser.Scene {
 
   createGroundPlatform(y: number) {
     const ground = this.add.graphics();
-    ground.fillStyle(0x2a1a4a, 1);
+    ground.fillStyle(0x8B4513, 1);
     ground.fillRoundedRect(20, y, GAME_WIDTH - 40, 18, 6);
-    ground.lineStyle(2, 0x7b4fae, 1);
+    ground.lineStyle(2, 0xA0522D, 1);
     ground.strokeRoundedRect(20, y, GAME_WIDTH - 40, 18, 6);
 
     const zone = this.add.zone(GAME_WIDTH / 2, y + 9, GAME_WIDTH - 40, 18);
@@ -273,26 +272,6 @@ export default class MainScene extends Phaser.Scene {
     (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.down = false;
     (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.left = false;
     (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.right = false;
-  }
-
-  createPlatform(x: number, y: number) {
-    const platWidth = Phaser.Math.Between(60, 100);
-    const platHeight = 12;
-
-    const gfx = this.add.graphics();
-    gfx.fillStyle(0x2a1a4a, 1);
-    gfx.fillRoundedRect(x - platWidth / 2, y, platWidth, platHeight, 4);
-    gfx.lineStyle(1.5, 0x7b4fae, 0.8);
-    gfx.strokeRoundedRect(x - platWidth / 2, y, platWidth, platHeight, 4);
-
-    const zone = this.add.zone(x, y + platHeight / 2, platWidth, platHeight);
-    this.platforms.add(zone);
-    (zone.body as Phaser.Physics.Arcade.StaticBody).setSize(platWidth, platHeight);
-    (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.down = false;
-    (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.left = false;
-    (zone.body as Phaser.Physics.Arcade.StaticBody).checkCollision.right = false;
-
-    (zone as any)._gfx = gfx;
   }
 
   createShuriken(x: number, y: number) {
@@ -313,45 +292,27 @@ export default class MainScene extends Phaser.Scene {
     });
   }
 
-  generateContentUpTo(targetY: number) {
-    let y = this.generatedUpTo - PLATFORM_INTERVAL_Y;
+  generateShurikens() {
+    // 初期エリアの手裏剣をまとめて生成
+    this.spawnShurikensUpTo(this.startY - GENERATE_AHEAD);
+  }
+
+  spawnShurikensUpTo(targetY: number) {
+    let y = this.generatedUpTo - SHURIKEN_INTERVAL_Y;
 
     while (y > targetY) {
-      const x = Phaser.Math.Between(60, GAME_WIDTH - 60);
-      this.createPlatform(x, y);
-
-      // 手裏剣は序盤は出さない
       const heightFromStart = this.startY - y;
-      if (
-        heightFromStart > 500 &&
-        heightFromStart % SHURIKEN_INTERVAL_Y < PLATFORM_INTERVAL_Y
-      ) {
-        let shurikenX = Phaser.Math.Between(50, GAME_WIDTH - 50);
-        while (Math.abs(shurikenX - x) < 40) {
-          shurikenX = Phaser.Math.Between(50, GAME_WIDTH - 50);
-        }
-        const shurikenY = y - Phaser.Math.Between(40, 90);
-        this.createShuriken(shurikenX, shurikenY);
+      if (heightFromStart > 300) {
+        const shurikenX = Phaser.Math.Between(50, GAME_WIDTH - 50);
+        this.createShuriken(shurikenX, y);
       }
-
-      y -= PLATFORM_INTERVAL_Y;
+      y -= SHURIKEN_INTERVAL_Y;
     }
 
-    this.generatedUpTo = y + PLATFORM_INTERVAL_Y;
+    this.generatedUpTo = y + SHURIKEN_INTERVAL_Y;
   }
 
   cleanupOffscreen(belowY: number) {
-    const platformChildren = [...this.platforms.getChildren()];
-    for (const child of platformChildren) {
-      const zone = child as Phaser.GameObjects.Zone;
-      if (zone.y > belowY) {
-        if ((zone as any)._gfx) {
-          (zone as any)._gfx.destroy();
-        }
-        zone.destroy();
-      }
-    }
-
     const shurikenChildren = [...this.shurikens.getChildren()];
     for (const child of shurikenChildren) {
       const sprite = child as Phaser.Physics.Arcade.Sprite;
@@ -381,22 +342,11 @@ export default class MainScene extends Phaser.Scene {
   }
 
   createBackground() {
+    // 水色の空背景（元の色 #3498db に合わせる）
     const bg = this.add.graphics();
     bg.setScrollFactor(0);
     bg.setDepth(-10);
-    bg.fillGradientStyle(0x0a0a2e, 0x0a0a2e, 0x1a0a3e, 0x1a0a3e, 1);
+    bg.fillStyle(0x3498db, 1);
     bg.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-    const stars = this.add.graphics();
-    stars.setScrollFactor(0.02);
-    stars.setDepth(-9);
-    for (let i = 0; i < 80; i++) {
-      const sx = Phaser.Math.Between(0, GAME_WIDTH);
-      const sy = Phaser.Math.Between(-10000, GAME_HEIGHT);
-      const size = Phaser.Math.FloatBetween(0.5, 2);
-      const alpha = Phaser.Math.FloatBetween(0.15, 0.6);
-      stars.fillStyle(0xffffff, alpha);
-      stars.fillCircle(sx, sy, size);
-    }
   }
 }

@@ -12,7 +12,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     // 暗い背景
     const bg = this.add.graphics();
-    bg.fillStyle(0x0a0a2e, 0.95);
+    bg.fillStyle(0x3498db, 0.95);
     bg.fillRect(0, 0, this.scale.width, this.scale.height);
 
     // ゲームオーバーテキスト

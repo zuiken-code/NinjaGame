@@ -12,7 +12,7 @@ export const createGame = (parent: string) => {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    backgroundColor: "#0a0a2e",
+    backgroundColor: "#3498db",
     physics: {
       default: "arcade",
       arcade: {
