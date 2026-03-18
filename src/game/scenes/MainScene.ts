@@ -277,8 +277,8 @@ export default class MainScene extends Phaser.Scene {
     shuriken.setScale(1.2);
     shuriken.refreshBody();
     // 当たり判定を小さめに
-    (shuriken.body as Phaser.Physics.Arcade.StaticBody).setSize(60, 60);
-    (shuriken.body as Phaser.Physics.Arcade.StaticBody).setOffset(6, 6);
+    (shuriken.body as Phaser.Physics.Arcade.Body).setCircle(30);
+    (shuriken.body as Phaser.Physics.Arcade.Body).setOffset(6, 6);
 
     // 回転アニメーション
     this.tweens.add({
