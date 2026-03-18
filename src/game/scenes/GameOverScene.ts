@@ -88,30 +88,48 @@ export default class GameOverScene extends Phaser.Scene {
         .setOrigin(0.5);
       });
 
-    // リトライ案内
+    // もう一度プレイボタン
     const retryText = this.add
-      .text(centerX, centerY + 300, "タップしてリトライ", {
+      .text(centerX, centerY + 260, "▶ もう一度プレイ", {
         fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
-        fontSize: "22px",
+        fontSize: "24px",
         color: "#ffffff",
         stroke: "#000000",
         strokeThickness: 3,
+        backgroundColor: "#2ecc71",
+        padding: { x: 20, y: 10 },
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.scene.start("main");
+      });
 
-    // 点滅アニメーション
+    // トップへ戻るボタン
+    const topText = this.add
+      .text(centerX, centerY + 320, "トップに戻る", {
+        fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
+        fontSize: "20px",
+        color: "#ffffff",
+        stroke: "#000000",
+        strokeThickness: 3,
+        backgroundColor: "#e74c3c",
+        padding: { x: 20, y: 10 },
+      })
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        window.location.hash = "#/";
+      });
+
+    // アニメーション (ボタンを少しだけ上下に動かす)
     this.tweens.add({
-      targets: retryText,
-      alpha: 0.3,
-      duration: 800,
+      targets: [retryText, topText],
+      y: "+=5",
+      duration: 1000,
       yoyo: true,
       repeat: -1,
       ease: "Sine.easeInOut",
-    });
-
-    // タップでリスタート
-    this.input.once("pointerdown", () => {
-      this.scene.start("main");
     });
   }
 }
