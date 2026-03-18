@@ -4,11 +4,12 @@ const GAME_WIDTH = 400;
 const GAME_HEIGHT = 700;
 
 // ゲーム設定
-const SHURIKEN_INTERVAL_Y = 64*3;    // 手裏剣の間隔(px)
+const SHURIKEN_INTERVAL_Y = 64 * 3;    // 手裏剣の間隔(px)
 const JUMP_VELOCITY_X = 180;        // 横方向ジャンプ速度
 const JUMP_VELOCITY_Y = -500;       // 縦方向ジャンプ速度
 const PIXELS_PER_METER = 50;        // 1メートルあたりのpx
 const GENERATE_AHEAD = 2000;        // カメラの上方向にこの分だけ先に生成(px)
+const BETWEEN_X = (GAME_WIDTH - 50) / 7; // 手裏剣の横方向の間隔(px)
 
 export default class MainScene extends Phaser.Scene {
   player!: Phaser.Physics.Arcade.Sprite;
@@ -300,8 +301,36 @@ export default class MainScene extends Phaser.Scene {
 
     while (y > targetY) {
       const heightFromStart = this.startY - y;
-      if (heightFromStart > 300) {
-        const shurikenX = Phaser.Math.Between(50, GAME_WIDTH - 50);
+      if (heightFromStart > 650*50) {
+        const oneOrThree = Phaser.Math.Between(1, 2);
+        let pieces;
+        if(oneOrThree === 1){
+          pieces = 1;
+        }else{
+          pieces = 3;
+        }
+        for (let i = 0; i < pieces; i++) {
+          const shurikenXrow = Phaser.Math.Between(0, 6);
+          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
+          this.createShuriken(shurikenX, y);
+        }
+      }else if (heightFromStart > 300*50) {
+        const pieces = Phaser.Math.Between(1, 3);
+        for (let i = 0; i < pieces; i++) {
+          const shurikenXrow = Phaser.Math.Between(0, 6);
+          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
+          this.createShuriken(shurikenX, y);
+        }
+      } else if (heightFromStart > 150*50) {
+        const pieces = Phaser.Math.Between(1, 2);
+        for (let i = 0; i < pieces; i++) {
+          const shurikenXrow = Phaser.Math.Between(0, 6);
+          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
+          this.createShuriken(shurikenX, y);
+        }
+      }else if (heightFromStart > 6*50){
+        const shurikenXrow = Phaser.Math.Between(0, 6);
+        const shurikenX = 50 + BETWEEN_X * shurikenXrow;
         this.createShuriken(shurikenX, y);
       }
       y -= SHURIKEN_INTERVAL_Y;
