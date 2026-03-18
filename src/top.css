@@ -1,0 +1,99 @@
+.top-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a2e; /* 忍者ゲームの背景色と統一 */
+  color: #fff;
+  font-family: "'Segoe UI', 'Helvetica Neue', sans-serif";
+}
+
+.top-content {
+  text-align: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05); /* 少しだけ透明な背景 */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 90%;
+}
+
+.game-title {
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: #f1c40f; /* ゴールドっぽい色で忍者を強調 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 4px;
+}
+
+.game-info {
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.controls {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #3498db; /* アクセントカラー */
+}
+
+.controls ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.controls li {
+  font-size: 15px;
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 20px;
+}
+
+/* 箇条書きの手裏剣風マーカー */
+.controls li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: #f1c40f;
+}
+
+.play-button {
+  display: inline-block;
+  background: #e74c3c; /* 目立つ赤 */
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 12px 40px;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.play-button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.play-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

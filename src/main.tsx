@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css'
 import App from './App.tsx'
 import { createHashRouter, RouterProvider } from 'react-router-dom';
+import Top from './top.tsx';
 
 const router = createHashRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Top />,
   },
   {
-    path: "/about",
+    path: "/game",
     element: <App />,
   },
 ],);
