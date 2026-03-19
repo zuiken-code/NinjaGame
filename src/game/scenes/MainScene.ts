@@ -309,16 +309,16 @@ export default class MainScene extends Phaser.Scene {
 
       let pieces = 0;
 
-      if (heightFromStart <= 6 * 50) {
+      if (heightFromStart <= 6 * PIXELS_PER_METER) {
         // 6m以下: 0個
         pieces = 0;
-      } else if (heightFromStart <= 150 * 50) {
+      } else if (heightFromStart <= 150 * PIXELS_PER_METER) {
         // 0〜150m: A=0or1, B=1
         pieces = isOddRow ? Phaser.Math.Between(0, 1) : 1;
-      } else if (heightFromStart <= 300 * 50) {
+      } else if (heightFromStart <= 300 * PIXELS_PER_METER) {
         // 150〜300m: A=2, B=0or1
         pieces = isOddRow ? 2 : Phaser.Math.Between(0, 1);
-      } else if (heightFromStart <= 650 * 50) {
+      } else if (heightFromStart <= 650 * PIXELS_PER_METER) {
         // 300〜650m: A=2or3, B=1
         pieces = isOddRow ? Phaser.Math.Between(2, 3) : 1;
       } else {
