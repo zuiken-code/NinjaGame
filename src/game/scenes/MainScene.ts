@@ -298,41 +298,40 @@ export default class MainScene extends Phaser.Scene {
 
   spawnShurikensUpTo(targetY: number) {
     let y = this.generatedUpTo - SHURIKEN_INTERVAL_Y;
+    // generatedUpToからの行番号を追跡するため、行インデックスを計算
+    // startYから何行目かを求める（0始まり）
+    let rowIndex = Math.round((this.startY - (this.generatedUpTo)) / SHURIKEN_INTERVAL_Y);
 
     while (y > targetY) {
       const heightFromStart = this.startY - y;
-      if (heightFromStart > 650*50) {
-        const oneOrThree = Phaser.Math.Between(1, 2);
-        let pieces;
-        if(oneOrThree === 1){
-          pieces = 1;
-        }else{
-          pieces = 3;
-        }
-        for (let i = 0; i < pieces; i++) {
-          const shurikenXrow = Phaser.Math.Between(0, 6);
-          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
-          this.createShuriken(shurikenX, y);
-        }
-      }else if (heightFromStart > 300*50) {
-        const pieces = Phaser.Math.Between(1, 3);
-        for (let i = 0; i < pieces; i++) {
-          const shurikenXrow = Phaser.Math.Between(0, 6);
-          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
-          this.createShuriken(shurikenX, y);
-        }
-      } else if (heightFromStart > 150*50) {
-        const pieces = Phaser.Math.Between(1, 2);
-        for (let i = 0; i < pieces; i++) {
-          const shurikenXrow = Phaser.Math.Between(0, 6);
-          const shurikenX = 50 + BETWEEN_X * shurikenXrow;
-          this.createShuriken(shurikenX, y);
-        }
-      }else if (heightFromStart > 6*50){
+      rowIndex++;
+      const isOddRow = rowIndex % 2 === 1; // 奇数行目(A) か 偶数行目(B) か
+
+      let pieces = 0;
+
+      if (heightFromStart <= 6 * 50) {
+        // 6m以下: 0個
+        pieces = 0;
+      } else if (heightFromStart <= 150 * 50) {
+        // 0〜150m: A=0or1, B=1
+        pieces = isOddRow ? Phaser.Math.Between(0, 1) : 1;
+      } else if (heightFromStart <= 300 * 50) {
+        // 150〜300m: A=2, B=0or1
+        pieces = isOddRow ? 2 : Phaser.Math.Between(0, 1);
+      } else if (heightFromStart <= 650 * 50) {
+        // 300〜650m: A=2or3, B=1
+        pieces = isOddRow ? Phaser.Math.Between(2, 3) : 1;
+      } else {
+        // 650m〜: A=3, B=1
+        pieces = isOddRow ? 3 : 1;
+      }
+
+      for (let i = 0; i < pieces; i++) {
         const shurikenXrow = Phaser.Math.Between(0, 6);
         const shurikenX = 50 + BETWEEN_X * shurikenXrow;
         this.createShuriken(shurikenX, y);
       }
+
       y -= SHURIKEN_INTERVAL_Y;
     }
 
