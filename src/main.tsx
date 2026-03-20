@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import './index.css'
-import App from './App.tsx'
+import App from './components/App.tsx'
 import { createHashRouter, RouterProvider } from 'react-router-dom';
-import Top from './top.tsx';
+import Top from './components/top.tsx';
 
 const router = createHashRouter([
   {

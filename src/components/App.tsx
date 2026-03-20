@@ -1,4 +1,4 @@
-import GameCanvas from "./components/GameCanvas";
+import GameCanvas from "./GameCanvas";
 
 function App() {
   return <GameCanvas />;
