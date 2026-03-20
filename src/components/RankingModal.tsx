@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import { ScoreManager } from '../util/ScoreManager';
 import './RankingModal.css';
 
@@ -10,7 +9,7 @@ export default function RankingModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   
-  const { user, isLoggedIn, loading, signInWithX } = useAuth();
+
 
   useEffect(() => {
     const handleShowRanking = (event: CustomEvent<{ score: number }>) => {
@@ -43,13 +42,10 @@ export default function RankingModal() {
     setIsSubmitting(true);
     setMessage('登録中...');
 
-    // is_guest はログインしていなければ true
-    const isGuest = !isLoggedIn;
-    
     const result = await ScoreManager.registerRanking(
       nickname,
-      isGuest,
-      user?.id
+      true, // 常にゲストとして登録
+      null
     );
 
     setIsSubmitting(false);
@@ -68,14 +64,7 @@ export default function RankingModal() {
         <h2>ランキング登録</h2>
         <p className="ranking-score">スコア: {score} m</p>
         
-        {!loading && !isLoggedIn && (
-          <div className="login-prompt">
-            <p>ログインすると記録が引き継がれます</p>
-            <button onClick={signInWithX} className="login-button">
-              𝕏 でログイン
-            </button>
-          </div>
-        )}
+
 
         <form onSubmit={handleSubmit} className="ranking-form">
           <input

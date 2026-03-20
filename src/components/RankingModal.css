@@ -38,34 +38,6 @@
   margin: 0;
 }
 
-.login-prompt {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px dashed #ccc;
-  font-size: 14px;
-}
-
-.login-prompt p {
-  margin: 0 0 10px 0;
-  color: #555;
-}
-
-.login-button {
-  background: #0f1419;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-}
-
-.login-button:hover {
-  background: #272c30;
-}
-
 .ranking-form {
   display: flex;
   flex-direction: column;
