@@ -97,3 +97,18 @@
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.ranking-btn {
+  background-color: #f39c12;
+}
+
+.ranking-btn:hover {
+  background-color: #d35400;
+}

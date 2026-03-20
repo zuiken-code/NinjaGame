@@ -56,6 +56,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     // スコア保存
     ScoreManager.addScore(score);
+    ScoreManager.setLatestScore(score);
 
     // 高さラベル
     this.add
@@ -86,6 +87,26 @@ export default class GameOverScene extends Phaser.Scene {
           color: "#ffffffff",
         })
         .setOrigin(0.5);
+      });
+
+    // ランキング登録ボタン
+    const rankingText = this.add
+      .text(centerX, centerY + 210, "🏆 ランキング登録", {
+        fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
+        fontSize: "24px",
+        fontStyle: "bold",
+        color: "#ffffff",
+        stroke: "#000000",
+        strokeThickness: 3,
+        backgroundColor: "#f39c12",
+        padding: { x: 20, y: 10 },
+      })
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        window.dispatchEvent(new CustomEvent("show-ranking", {
+          detail: { score }
+        }));
       });
 
     // もう一度プレイボタン
@@ -126,7 +147,7 @@ export default class GameOverScene extends Phaser.Scene {
 
     // アニメーション (ボタンを少しだけ上下に動かす)
     this.tweens.add({
-      targets: [retryText, topText],
+      targets: [rankingText, retryText, topText],
       y: "+=5",
       duration: 1000,
       yoyo: true,

@@ -22,9 +22,14 @@ function Top() {
           </div>
         </div>
 
-        <Link to="/game" className="play-button">
-          ゲームスタート
-        </Link>
+        <div className="button-group">
+          <Link to="/game" className="play-button">
+            ゲームスタート
+          </Link>
+          <Link to="/ranking" className="play-button ranking-btn">
+            ランキングを見る
+          </Link>
+        </div>
       </div>
     </div>
   );

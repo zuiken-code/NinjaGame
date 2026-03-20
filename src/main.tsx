@@ -4,6 +4,7 @@ import './index.css'
 import App from './components/App.tsx'
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import Top from './components/top.tsx';
+import RankingPage from './components/RankingPage.tsx';
 
 const router = createHashRouter([
   {
@@ -13,6 +14,10 @@ const router = createHashRouter([
   {
     path: "/game",
     element: <App />,
+  },
+  {
+    path: "/ranking",
+    element: <RankingPage />,
   },
 ],);
 

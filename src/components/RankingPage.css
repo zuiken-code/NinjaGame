@@ -1,0 +1,88 @@
+.ranking-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+  overflow: hidden;
+}
+
+.ranking-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ranking-title {
+  margin: 0 0 20px;
+  color: #d35400;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.loading-text, .no-data {
+  font-size: 18px;
+  color: #7f8c8d;
+  margin: 30px 0;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 5px solid #3498db;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.rank-number {
+  width: 40px;
+  text-align: left;
+  color: #555;
+  font-size: 20px;
+}
+
+.player-name {
+  flex: 1;
+  text-align: left;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-score {
+  color: #e67e22;
+}
+
+.back-button {
+  display: inline-block;
+  background: #34495e;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.back-button:hover {
+  background: #2c3e50;
+  transform: scale(1.05);
+}

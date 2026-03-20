@@ -1,7 +1,13 @@
 import GameCanvas from "./GameCanvas";
+import RankingModal from "./RankingModal";
 
 function App() {
-  return <GameCanvas />;
+  return (
+    <>
+      <GameCanvas />
+      <RankingModal />
+    </>
+  );
 }
 
 export default App;
