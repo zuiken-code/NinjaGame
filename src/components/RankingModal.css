@@ -38,6 +38,17 @@
   margin: 0;
 }
 
+.daily-limit-info {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.limit-reached {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
 .ranking-form {
   display: flex;
   flex-direction: column;
