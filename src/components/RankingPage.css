@@ -34,7 +34,7 @@
 .leaderboard-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   margin-bottom: 30px;
 }
 
@@ -43,18 +43,18 @@
   align-items: center;
   justify-content: space-between;
   background: #f8f9fa;
-  padding: 10px 15px;
+  padding: 6px 15px;
   border-radius: 8px;
   border-left: 5px solid #3498db;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 
 .rank-number {
-  width: 40px;
+  width: 32px;
   text-align: left;
   color: #555;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .player-name {
