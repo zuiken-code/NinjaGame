@@ -104,6 +104,20 @@ export default class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
+        if (!navigator.onLine) {
+          // オフラインメッセージを表示
+          const offlineMsg = this.add
+            .text(centerX, centerY + 170, "📡 現在オフラインです", {
+              fontFamily: "'Segoe UI', 'Helvetica Neue', sans-serif",
+              fontSize: "16px",
+              color: "#ff6b6b",
+              stroke: "#000000",
+              strokeThickness: 2,
+            })
+            .setOrigin(0.5);
+          this.time.delayedCall(2500, () => offlineMsg.destroy());
+          return;
+        }
         window.dispatchEvent(new CustomEvent("show-ranking", {
           detail: { score }
         }));

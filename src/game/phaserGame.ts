@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/MainScene";
 import GameOverScene from "./scenes/GameOverScene";
+import PauseScene from "./scenes/PauseScene";
 
 export const createGame = (parent: string) => {
   return new Phaser.Game({
@@ -20,6 +21,6 @@ export const createGame = (parent: string) => {
         debug: false,
       },
     },
-    scene: [MainScene, GameOverScene],
+    scene: [MainScene, GameOverScene, PauseScene],
   });
 };

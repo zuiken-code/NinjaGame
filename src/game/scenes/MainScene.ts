@@ -22,6 +22,7 @@ export default class MainScene extends Phaser.Scene {
   startY!: number;
   isGameOver!: boolean;
   hasStarted!: boolean;
+  isPaused!: boolean;
 
   constructor() {
     super("main");
@@ -115,6 +116,7 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.isGameOver = false;
     this.hasStarted = false;
+    this.isPaused = false;
 
     // 背景
     this.createBackground();
@@ -177,6 +179,39 @@ export default class MainScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(100);
 
+    // 一時停止ボタン
+    const pauseBtn = this.add
+      .text(GAME_WIDTH - 15, 15, "⏸", {
+        fontSize: "32px",
+        color: "#ffffff",
+        stroke: "#000000",
+        strokeThickness: 3,
+        shadow: {
+          offsetX: 1,
+          offsetY: 1,
+          color: "#000000",
+          blur: 4,
+          fill: true,
+        },
+      })
+      .setOrigin(1, 0)
+      .setScrollFactor(0)
+      .setDepth(200)
+      .setInteractive({ useHandCursor: true });
+
+    pauseBtn.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
+      pointer.event.stopPropagation();
+      if (this.isGameOver || this.isPaused) return;
+      this.isPaused = true;
+      this.scene.pause();
+      this.scene.launch("pause");
+    });
+
+    // PauseSceneから復帰した時のリスナー
+    this.events.on("resume", () => {
+      this.isPaused = false;
+    });
+
     // スタートメッセージ
     const startMsg = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 50, "タップでジャンプ!", {
@@ -201,7 +236,7 @@ export default class MainScene extends Phaser.Scene {
 
     // タップ入力
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-      if (this.isGameOver) return;
+      if (this.isGameOver || this.isPaused) return;
 
       if (!this.hasStarted) {
         this.hasStarted = true;

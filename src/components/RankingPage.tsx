@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ScoreManager } from '../util/ScoreManager';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import './RankingPage.css';
 
 export default function RankingPage() {
   const [leaderboard, setLeaderboard] = useState<{ name: string, score: number }[]>([]);
   const [loading, setLoading] = useState(true);
+  const isOnline = useOnlineStatus();
 
   useEffect(() => {
     async function fetchRanking() {
+      if (!navigator.onLine) {
+        setLoading(false);
+        return;
+      }
       const data = await ScoreManager.getLeaderboard(10);
       setLeaderboard(data);
       setLoading(false);
@@ -21,7 +27,9 @@ export default function RankingPage() {
       <div className="ranking-content">
         <h1 className="ranking-title">🏆 ランキング 🏆</h1>
         
-        {loading ? (
+        {!isOnline ? (
+          <p className="offline-message">📡 現在オフラインです。ランキングの閲覧にはインターネット接続が必要です。</p>
+        ) : loading ? (
           <p className="loading-text">読み込み中...</p>
         ) : (
           <div className="leaderboard-list">

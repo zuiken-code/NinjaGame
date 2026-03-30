@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScoreManager } from '../util/ScoreManager';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import './RankingModal.css';
 
 export default function RankingModal() {
@@ -9,7 +10,8 @@ export default function RankingModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [remainingCount, setRemainingCount] = useState(5);
-  
+  const isOnline = useOnlineStatus();
+
 
 
   useEffect(() => {
@@ -47,6 +49,11 @@ export default function RankingModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isOnline) {
+      setMessage('📡 現在オフラインです。ランキング登録にはインターネット接続が必要です。');
+      return;
+    }
     
     if (remainingCount <= 0) {
       setMessage('本日の登録上限（5回）に達しました。また明日挑戦してください！');
@@ -106,6 +113,9 @@ export default function RankingModal() {
           ※1日5回まで登録できます（本日残り: <span className={remainingCount === 0 ? "limit-reached" : ""}>{remainingCount}</span>回）
         </p>
 
+        {!isOnline && (
+          <p className="offline-message">📡 現在オフラインです。ランキング登録にはインターネット接続が必要です。</p>
+        )}
 
         <form onSubmit={handleSubmit} className="ranking-form">
           <input
@@ -114,7 +124,7 @@ export default function RankingModal() {
             onChange={(e) => setNickname(e.target.value)}
             placeholder="ニックネーム (最大10文字)"
             maxLength={10}
-            disabled={isSubmitting || remainingCount <= 0}
+            disabled={isSubmitting || remainingCount <= 0 || !isOnline}
             className="nickname-input"
           />
           
@@ -130,7 +140,7 @@ export default function RankingModal() {
             <button
               type="submit"
               className="submit-button"
-              disabled={isSubmitting || !nickname.trim() || remainingCount <= 0}
+              disabled={isSubmitting || !nickname.trim() || remainingCount <= 0 || !isOnline}
             >
               登録する
             </button>
